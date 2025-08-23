@@ -9,7 +9,9 @@ const Head = () => {
   const [showSuggestions, setShowSuggestions] = useState(false);
 
   useEffect(() => {
-    // Make API call on every key press irrespective of slow & fast typing.
+    // In the Flipkart search bar, an API call is triggered on every key press, regardless of whether the user is typing fast or slow. This leads to performance issues.
+    // To solve this, debouncing is introduced, which helps minimize and control the number of API calls.
+
     // getSearchSuggestion();
     // Make API call if the key-press difference is > 200 ms - Debouncing - watch recorded session for in depth explanation.
     const timer = setTimeout(() => {
