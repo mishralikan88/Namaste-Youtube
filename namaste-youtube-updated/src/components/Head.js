@@ -88,9 +88,11 @@ results in an API call, instead of calling the API for every keystroke.
             type="text"
             name=""
             id=""
+            // focus in 
             onFocus={() => {
               setShowSuggestions(true);
             }}
+            // focus out
             onBlur={() => {
               setShowSuggestions(false);
             }}
