@@ -48,6 +48,7 @@ const CommentList = ({ comments }) => {
           <p className="font-bold">{comment.name}</p>
           <p>{comment.text}</p>
           <div className="ml-15">
+            {/* CommentList recursion.replies are the list of comments. We are reusing CommentList component but we are passing replies as a prop to it. => N level nested comments*/}
             <CommentList comments={comment.replies} />
           </div>
         </div>
