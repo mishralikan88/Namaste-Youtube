@@ -52,3 +52,18 @@ export default Demo2;
 // change in ref & local variable does not trigger reconciliation . only difference is local variable does not maintain its state when ref variable maintains its state.
 
 // Note - Reconcialiation triggers component rerender cycle.
+
+// State (useState)
+// Persists between re-renders.
+// Triggers a re-render when updated.
+// Used for UI-driven data.
+
+// Ref (useRef)
+// Persists between re-renders.
+// Does not trigger a re-render when updated.
+// Used for storing mutable values or DOM references.
+
+// Local Variable
+// Does not persist between re-renders.
+// Does not trigger a re-render.
+// Used only for temporary calculations within a single render.
