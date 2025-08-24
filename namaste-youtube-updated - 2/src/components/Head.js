@@ -8,14 +8,22 @@ const Head = () => {
   const [suggestions, setSuggestions] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
   const [showSuggestions, setShowSuggestions] = useState(false);
-  const searchCache = useSelector((store) => store.search);
+  const searchCache = useSelector((store) => store.search); // store.search will have {} initially.This is the initial state.
   const dispatch = useDispatch();
 
   useEffect(() => {
     const timer = setTimeout(() => {
       if (searchCache[searchQuery]) {
+        // object[key] → Here, "object" is searchCache and "key" is searchQuery.
+        // Example: searchCache[searchQuery]
+        //
+        // Logic:
+        // - If the searchQuery already exists in the cache (Redux store),
+        //   return the cached suggestions (✅ no API call needed).
         setSuggestions(searchCache[searchQuery]);
       } else {
+        // - If the searchQuery is NOT in the cache,
+        //   then make an API call and store the result in the cache for future use.
         getSearchSuggestion();
       }
     }, 200);
@@ -23,6 +31,8 @@ const Head = () => {
       clearTimeout(timer);
     };
   }, [searchQuery]);
+
+  // cacheResults - To prevent repeatative Api call for the same search we cache the result in redux store
 
   getSearchSuggestion = async () => {
     const data = await fetch(YOUTUBE_SEARCH_API + searchQuery);
@@ -35,6 +45,17 @@ const Head = () => {
     );
   };
 
+  // {
+  //   [searchQuery]: json[1],
+  // }
+
+  // This is the action payLoad.
+
+  // Sample Example -
+
+  // searchCache =  {
+  //   "iphone": ["iphone 11","iphone 14"],
+  // }
 
   const toggleMenuHandler = () => {
     dispatch(toggleMenu());
