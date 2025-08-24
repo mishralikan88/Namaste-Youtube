@@ -10,7 +10,15 @@ const LiveChat = () => {
   const chatMessages = useSelector((store) => store.chat.messages);
   useEffect(() => {
     const interval = setInterval(() => {
-      // API polling
+      // API polling -
+      // API polling is when a client repeatedly sends requests to a server at fixed intervals to check for new data.
+
+      // How It Works ?
+      // Client → sends a request (e.g., every 5s).
+      // Server → replies with data (new or same old).
+      // Client waits for the interval, then repeats.
+      // In short: Ask → Wait → Ask again → Repeat.
+
       dispatch(
         addMessage({
           name: generateRandomName(),
@@ -35,15 +43,15 @@ const LiveChat = () => {
       <form
         className="w-full p-2 ml-2 border border-black"
         onSubmit={(e) => {
-          console.log("asdsa")
+          console.log("asdsa");
           e.preventDefault();
           dispatch(
             addMessage({
               name: "Amarnath",
-              message:  liveMessage ,
+              message: liveMessage,
             })
           );
-          setLiveMessage("")
+          setLiveMessage("");
         }}
       >
         <input
