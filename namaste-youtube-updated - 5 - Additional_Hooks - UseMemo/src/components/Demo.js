@@ -5,8 +5,8 @@ const Demo = () => {
   const [text, setText] = useState(0);
   const [isDarkTheme, setIsDarkTheme] = useState(true);
 
-  const prime = useMemo(() => findNthPrime(text),[text]); // caches the rsult between every rerenders until my depandancy changes.
-
+  const prime = useMemo(() => findNthPrime(text),[text]); 
+  // useMemo caches (memoizes) the computed value between re-renders and only recomputes it when its dependency array changes.
   return (
     <div
       className={
