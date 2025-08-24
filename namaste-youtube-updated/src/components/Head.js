@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { toggleMenu } from "../utils/applicationSlice";
 import { YOUTUBE_SEARCH_API } from "../utils/constants";
@@ -9,19 +9,45 @@ const Head = () => {
   const [showSuggestions, setShowSuggestions] = useState(false);
 
   useEffect(() => {
-    // In the Flipkart search bar, an API call is triggered on every key press, regardless of whether the user is typing fast or slow. This leads to performance issues.
-    // To solve this, debouncing is introduced, which helps minimize and control the number of API calls.
-
-    // getSearchSuggestion();
+    // In the Flipkart search bar, typing triggers an API call on every key press.
+    // This causes performance issues, so we introduce "debouncing" to limit calls.
+    // Debouncing ensures the API is called only if the user pauses typing for >200ms.
     // Make API call if the key-press difference is > 200 ms - Debouncing - watch recorded session for in depth explanation.
+
     const timer = setTimeout(() => {
       getSearchSuggestion();
     }, 200);
-    // Below function is called when the component is unmounted. When the component rerenders.
+    // Cleanup: If the user types another character before 200ms,
+    // React re-renders and this cleanup clears the previous timer,
+    // preventing multiple unnecessary API calls.
     return () => {
       clearTimeout(timer);
     };
   }, [searchQuery]);
+
+/*
+
+Example Flow:
+
+Case 1: User types "i"
+---------------------------------
+- Component re-renders.
+- useEffect runs, sets a 200ms timer.
+- If no further key is pressed within 200ms → API call executes.
+
+Case 2: User types "ip" quickly (within 200ms)
+---------------------------------
+- Typing "p" triggers re-render before the first 200ms finishes.
+- Cleanup function clears the old timer (no API call for just "i").
+- New timer starts for "ip".
+- If 200ms passes with no new input → API call executes with "ip".
+
+Key Idea:
+---------------------------------
+Debouncing ensures only the "final" stable input after a pause (≥200ms)
+results in an API call, instead of calling the API for every keystroke.
+
+*/
 
   getSearchSuggestion = async () => {
     // console.log("API CALL - " + searchQuery);
